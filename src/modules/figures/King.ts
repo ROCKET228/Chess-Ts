@@ -18,16 +18,22 @@ export class King extends Figure{
             return false;
         }
 
+        const dx = Math.abs(this.cell.x - target.x)
+        const dy = Math.abs(this.cell.y - target.y)
 
-        if(this.cell.isEmptyVertical(target) && target.y === this.cell.y){
-            return true
+
+        if(this.cell.isEmptyVertical(target)){
+            return dy === 1
         }
         if(this.cell.isEmptyHorizontal(target)){
-            return true
+            return dx === 1
         }
+
         if(this.cell.isEmptyDiagonal(target)){
-            return true
+            return (dx === 1 && dy === 1  ) || (dx === 1 && dy === 1)
         }
         return false
+
+
     }
 }

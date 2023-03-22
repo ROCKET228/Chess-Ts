@@ -9,6 +9,7 @@ interface BoardProps {
     setBoard: (board: Board) => void;
     currentPlayer: Player | null;
     swapPlayer: () => void;
+
 }
 
 
@@ -22,8 +23,10 @@ const BoardComponent: FC<BoardProps> = ({board, setBoard, currentPlayer, swapPla
             setSelectedCell(null);
             updateBoard()
         }else {
-            if(cell.figure?.color === currentPlayer?.color)
+            if(cell.figure?.color === currentPlayer?.color){
                 setSelectedCell(cell)
+            }
+
         }
 
     }

@@ -5,24 +5,39 @@ import {Colors} from "../modules/Colors";
 interface TimerProps {
     currentPlayer: Player | null;
     restart: () => void;
+    firstStep: boolean;
+
 }
 
 
-const Timer: FC<TimerProps> = ({currentPlayer, restart}) => {
-    const [blackTime, setBlackTime] = useState(300)
+const Timer: FC<TimerProps> = ({currentPlayer, restart, firstStep}) => {
+    const [blackTime, setBlackTime] = useState(10)
     const [whiteTime, setWhiteTime] = useState(300)
+
     const timer = useRef<null | ReturnType<typeof setInterval>>(null)
 
+
     useEffect(() => {
-        startTimer()
+        if(!firstStep) {
+            startTimer()
+        }
     },[currentPlayer])
 
+    useEffect(() => {
+        if(blackTime == 0 || whiteTime == 0)
+        {
+            handleRestart()
+        }
+    },[blackTime, whiteTime])
+
     function startTimer(){
+
         if(timer.current){
             clearInterval(timer.current)
         }
         const callback = currentPlayer?.color === Colors.WHITE ? decrementWhiteTimer : decrementBlackTimer
         timer.current = setInterval(callback, 1000)
+
     }
 
     function decrementBlackTimer(){

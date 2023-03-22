@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import './App.css';
 import BoardComponent from "./components/BoardComponent";
 import {Board} from "./modules/Board";
@@ -11,11 +11,11 @@ function App() {
     const [board, setBoard] = useState(new Board())
     const [whitePlayer, setWhitePlayer] = useState(new Player(Colors.WHITE));
     const [blackPlayer, setBlackPlayer] = useState(new Player(Colors.BLACK));
+    const [firstStep, setFirstStep] = useState(true);
     const [currentPlayer, setCurrentPlayer] = useState<Player | null>(null)
 
   useEffect(() => {
       restart()
-      setCurrentPlayer(whitePlayer);
   }, [])
 
   function restart() {
@@ -23,15 +23,21 @@ function App() {
       newBoard.initCell()
       newBoard.addFigures()
       setBoard(newBoard)
+      setCurrentPlayer(whitePlayer);
   }
 
   function swapPlayer(){
+        setFirstStep(false)
         setCurrentPlayer(currentPlayer?.color === Colors.WHITE ? blackPlayer : whitePlayer)
+
   }
 
   return (
     <div className="app">
-        <Timer currentPlayer={currentPlayer} restart={restart}/>
+        <Timer currentPlayer={currentPlayer}
+               restart={restart}
+               firstStep={firstStep}
+        />
       <BoardComponent
           board={board}
           setBoard={setBoard}
